@@ -4,25 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Employee {
+public class Manager {
 	
 	@Id
-	private int empId;
+	private int id;
 	private String fName;
 	private String lName;
 	private String email;
-	public Employee(int empId, String fName, String lName, String email) {
+	public Manager(int id, String fName, String lName, String email) {
 		super();
-		this.empId = empId;
+		this.id = id;
 		this.fName = fName;
 		this.lName = lName;
 		this.email = email;
 	}
-	public int getEmpId() {
-		return empId;
+	public int getId() {
+		return id;
 	}
-	public void setEmpId(int empId) {
-		this.empId = empId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getfName() {
 		return fName;
@@ -42,12 +42,12 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public Manager() {
+		
+	}
 	@Override
 	public String toString() {
-		return "Employee [empId=" + empId + ", fName=" + fName + ", lName=" + lName + ", email=" + email + "]";
-	}
-	public Employee() {
-		
+		return "Manager [id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + "]";
 	}
 	
 	
