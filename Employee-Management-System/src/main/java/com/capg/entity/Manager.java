@@ -1,7 +1,10 @@
 package com.capg.entity;
 
+import java.awt.print.Book;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Manager {
@@ -50,6 +53,8 @@ public class Manager {
 		return "Manager [id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + "]";
 	}
 	
+	@OneToOne(mappedBy = "manager")
+	Project project;
 	
 
 }

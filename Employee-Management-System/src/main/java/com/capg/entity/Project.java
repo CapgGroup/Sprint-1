@@ -1,7 +1,10 @@
 package com.capg.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Project {
@@ -35,6 +38,8 @@ public class Project {
 	}
 	
 	
-	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "managerId")
+	Manager manager;
 
 }
