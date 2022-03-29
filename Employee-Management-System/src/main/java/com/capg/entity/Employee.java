@@ -21,6 +21,10 @@ public class Employee {
 	public String getFirstName() {
 		return firstName;
 	}
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
