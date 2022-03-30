@@ -15,12 +15,12 @@ public class Manager {
 	private String lastName;
 	private String email;
 
-	@OneToOne(mappedBy = "manager")
-	Project project;
-
-	@OneToMany(mappedBy = "manager")
-	private List<Employee> employees;
-	
+//	@OneToOne(mappedBy = "manager")
+//	Project project;
+//
+//	@OneToMany(mappedBy = "manager")
+//	private List<Employee> employees;
+//	
 	public Manager() {
 	}
 
@@ -64,11 +64,11 @@ public class Manager {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", project=" + project + ", employees=" + employees + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+//				+ ", project=" + project + ", employees=" + employees + "]";
+//	}
 
 	
 }

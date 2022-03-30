@@ -15,12 +15,12 @@ public class Project {
 	private int id;
 	private String projectName;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "managerId")
-	Manager manager;
-
-	@ManyToMany(mappedBy = "projects")
-	private List<Employee> employees;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "managerId")
+//	Manager manager;
+//
+//	@ManyToMany(mappedBy = "projects")
+//	private List<Employee> employees;
 
 	public Project() {
 	}
@@ -46,8 +46,8 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	@Override
-	public String toString() {
-		return "Project [id=" + id + ", projectName=" + projectName + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Project [id=" + id + ", projectName=" + projectName + "]";
+//	}
 }
