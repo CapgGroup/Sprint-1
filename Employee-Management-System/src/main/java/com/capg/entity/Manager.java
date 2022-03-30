@@ -1,60 +1,80 @@
 package com.capg.entity;
 
-import java.awt.print.Book;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
 public class Manager {
-	
 	@Id
 	private int id;
-	private String fName;
-	private String lName;
+	private String firstName;
+	private String lastName;
 	private String email;
+
+	@OneToOne(mappedBy = "manager")
+	Project project;
+
+	@OneToMany(mappedBy = "manager")
+	private List<Employee> employees;
+
+	@ManyToMany()
+	@JoinTable(name = "project_manager", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "manager_id", referencedColumnName = "id"))
+	private List<Project> projects;
+
+	public Manager() {
+	}
+
 	public Manager(int id, String fName, String lName, String email) {
 		super();
 		this.id = id;
-		this.fName = fName;
-		this.lName = lName;
+		this.firstName = fName;
+		this.lastName = lName;
 		this.email = email;
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getfName() {
-		return fName;
+		return firstName;
 	}
+
 	public void setfName(String fName) {
-		this.fName = fName;
+		this.firstName = fName;
 	}
+
 	public String getlName() {
-		return lName;
+		return lastName;
 	}
+
 	public void setlName(String lName) {
-		this.lName = lName;
+		this.lastName = lName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Manager() {
-		
-	}
+
 	@Override
 	public String toString() {
-		return "Manager [id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + "]";
+		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", project=" + project + ", employees=" + employees + ", projects=" + projects + "]";
 	}
-	
-	@OneToOne(mappedBy = "manager")
-	Project project;
-	
-
 }
