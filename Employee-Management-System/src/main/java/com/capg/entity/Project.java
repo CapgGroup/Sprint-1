@@ -1,26 +1,23 @@
 package com.capg.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project {
 	@Id
 	private int id;
 	private String projectName;
-
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "managerId")
-//	Manager manager;
-//
-//	@ManyToMany(mappedBy = "projects")
-//	private List<Employee> employees;
+    @JsonIgnore
+	@ManyToMany(mappedBy = "ProjectAssigned")
+	private Set<Employee> employee = new HashSet<>();
+	
 
 	public Project() {
 	}

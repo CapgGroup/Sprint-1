@@ -1,12 +1,13 @@
 package com.capg.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Employee {
@@ -15,15 +16,25 @@ public class Employee {
 	private String firstName;
 	private String lastName;
 	private String email;
-
-//	@ManyToOne
-//	@JoinColumn(name = "manager_id")
-//	private Manager manager;
-//	
-//	@ManyToMany()
-//	@JoinTable(name = "project_employee", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
-//	private List<Project> projects;
 	
+	@ManyToMany
+	@JoinTable(
+			name="Project_Assigned",
+			joinColumns= @JoinColumn(name="employee_id"),
+			inverseJoinColumns = @JoinColumn(name="project_id")
+			)
+	private Set<Project> ProjectAssigned =new HashSet<>();
+
+	
+
+	public Set<Project> getProjectAssigned() {
+		return ProjectAssigned;
+	}
+
+	public void setProjectAssigned(Set<Project> projectAssigned) {
+		ProjectAssigned = projectAssigned;
+	}
+
 	public Employee() {
 	}
 
@@ -65,6 +76,11 @@ public class Employee {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void assignProject(Project project) {
+		ProjectAssigned.add(project);
+		
 	}
 
 //	@Override

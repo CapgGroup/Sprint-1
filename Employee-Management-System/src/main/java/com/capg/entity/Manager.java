@@ -15,12 +15,7 @@ public class Manager {
 	private String lastName;
 	private String email;
 
-//	@OneToOne(mappedBy = "manager")
-//	Project project;
-//
-//	@OneToMany(mappedBy = "manager")
-//	private List<Employee> employees;
-//	
+
 	public Manager() {
 	}
 
