@@ -2,12 +2,8 @@ package com.capg.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -24,11 +20,7 @@ public class Manager {
 
 	@OneToMany(mappedBy = "manager")
 	private List<Employee> employees;
-
-	@ManyToMany()
-	@JoinTable(name = "project_manager", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "manager_id", referencedColumnName = "id"))
-	private List<Project> projects;
-
+	
 	public Manager() {
 	}
 
@@ -75,6 +67,8 @@ public class Manager {
 	@Override
 	public String toString() {
 		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", project=" + project + ", employees=" + employees + ", projects=" + projects + "]";
+				+ ", project=" + project + ", employees=" + employees + "]";
 	}
+
+	
 }

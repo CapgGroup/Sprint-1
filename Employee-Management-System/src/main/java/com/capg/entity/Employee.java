@@ -1,8 +1,12 @@
 package com.capg.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -16,7 +20,11 @@ public class Employee {
 	@ManyToOne
 	@JoinColumn(name = "manager_id")
 	private Manager manager;
-
+	
+	@ManyToMany()
+	@JoinTable(name = "project_employee", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
+	private List<Project> projects;
+	
 	public Employee() {
 	}
 

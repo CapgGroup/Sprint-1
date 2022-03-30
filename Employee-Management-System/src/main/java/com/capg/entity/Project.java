@@ -20,7 +20,7 @@ public class Project {
 	Manager manager;
 
 	@ManyToMany(mappedBy = "projects")
-	private List<Manager> managers;
+	private List<Employee> employees;
 
 	public Project() {
 	}
