@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Employee {
 	@Id
-	private int id;
-	private String firstName;
-	private String lastName;
+	private int empid;
+	private String fName;
+	private String lName;
 	private String email;
 
 	@ManyToOne
@@ -30,34 +30,34 @@ public class Employee {
 
 	public Employee(int empId, String fName, String lName, String email) {
 		super();
-		this.id = empId;
-		this.firstName = fName;
-		this.lastName = lName;
+		this.empid = empId;
+		this.fName = fName;
+		this.lName = lName;
 		this.email = email;
 	}
 
 	public int getEmpId() {
-		return id;
+		return empid;
 	}
 
 	public void setEmpId(int empId) {
-		this.id = empId;
+		this.empid = empId;
 	}
 
 	public String getfName() {
-		return firstName;
+		return fName;
 	}
 
 	public void setfName(String fName) {
-		this.firstName = fName;
+		this.fName = fName;
 	}
 
 	public String getlName() {
-		return lastName;
+		return lName;
 	}
 
 	public void setlName(String lName) {
-		this.lastName = lName;
+		this.lName = lName;
 	}
 
 	public String getEmail() {
@@ -70,7 +70,7 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "Employee [id=" + empid + ", firstName=" + fName + ", lastName=" + lName + ", email=" + email
 				+ ", manager=" + manager + "]";
 	}
 }

@@ -11,8 +11,8 @@ import javax.persistence.OneToOne;
 public class Manager {
 	@Id
 	private int id;
-	private String firstName;
-	private String lastName;
+	private String fName;
+	private String lName;
 	private String email;
 
 	@OneToOne(mappedBy = "manager")
@@ -27,8 +27,8 @@ public class Manager {
 	public Manager(int id, String fName, String lName, String email) {
 		super();
 		this.id = id;
-		this.firstName = fName;
-		this.lastName = lName;
+		this.fName = fName;
+		this.lName = lName;
 		this.email = email;
 	}
 
@@ -41,19 +41,19 @@ public class Manager {
 	}
 
 	public String getfName() {
-		return firstName;
+		return fName;
 	}
 
 	public void setfName(String fName) {
-		this.firstName = fName;
+		this.fName = fName;
 	}
 
 	public String getlName() {
-		return lastName;
+		return lName;
 	}
 
 	public void setlName(String lName) {
-		this.lastName = lName;
+		this.lName = lName;
 	}
 
 	public String getEmail() {
@@ -66,7 +66,7 @@ public class Manager {
 
 	@Override
 	public String toString() {
-		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "Manager [id=" + id + ", firstName=" + fName + ", lastName=" + lName + ", email=" + email
 				+ ", project=" + project + ", employees=" + employees + "]";
 	}
 
