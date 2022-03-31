@@ -15,6 +15,13 @@ public interface ManagementService {
 	
 	public List<Employee> findByManagerId(int manager_id);
 	
+	public List<Employee> getAllEmployees();
+	
+	public void deleteById(int id);
+	
+	/* public List<Employee> getByProjectId(int id); */
+	
+	
 	//Project Methods
 	public Project saveProject(Project project);
 	

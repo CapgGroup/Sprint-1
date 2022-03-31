@@ -22,24 +22,36 @@ public class ManagementServiceImpl implements ManagementService {
 	private ProjectRepository projectRepository;
 	@Autowired
 	private ManagerRepository managerRepository;
-	
-	//Employee Methods
+
+	// Employee Methods
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		return employeeRepository.save(employee);
 	}
-	
+
 	@Override
 	public Optional<Employee> findEmployeeById(int id) {
 		return employeeRepository.findById(id);
 	}
-	
+
 	@Override
 	public List<Employee> findByManagerId(int managerId) {
 		return employeeRepository.findByManagerId(managerId);
 	}
-	
-	//Project Methods
+
+	@Override
+	public List<Employee> getAllEmployees() {
+
+		return employeeRepository.findAll();
+	}
+
+	@Override
+	public void deleteById(int id) {
+
+		employeeRepository.deleteById(id);
+	}
+
+	// Project Methods
 	@Override
 	public Project saveProject(Project project) {
 		return projectRepository.save(project);
@@ -49,8 +61,8 @@ public class ManagementServiceImpl implements ManagementService {
 	public Optional<Project> findProjectById(int id) {
 		return projectRepository.findById(id);
 	}
-	
-	//Manager Methods
+
+	// Manager Methods
 	@Override
 	public Manager saveManager(Manager manager) {
 		return managerRepository.save(manager);
@@ -60,7 +72,5 @@ public class ManagementServiceImpl implements ManagementService {
 	public Optional<Manager> findManagerById(int id) {
 		return managerRepository.findById(id);
 	}
-
-
 
 }

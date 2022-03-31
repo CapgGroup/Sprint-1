@@ -3,6 +3,7 @@ package com.capg.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +44,32 @@ public class EmployeeController {
         employee.setManager(manager);
         return managementService.saveEmployee(employee);
     }
+    @GetMapping("")
+    	public List<Employee> getAllEmployees(){
+    	return managementService.getAllEmployees();
+    }
     
-    @GetMapping("/get-by-manager/{managerId}")
-	public List<Employee> saveEmployee(@PathVariable int managerId) {
+    @GetMapping("/{empId}")
+    public Employee getByEmployeeId(@PathVariable int empId) {
+    	return managementService.findEmployeeById(empId).get();	
+    }
+    
+    @GetMapping("/get-by-managerId/{managerId}")
+	public List<Employee> getByManagerId(@PathVariable int managerId) {
 		return managementService.findByManagerId(managerId);
 	}
+    
+    @GetMapping("/get-by-projectId/{projectId}")
+    public List<Employee> getByProjectId(@PathVariable int projectId){
+    	return managementService.findProjectById(projectId).get().getEmployees();
+    }
+    
+    @DeleteMapping("/delete-by-id/{id}")
+    public void deleteByid(@PathVariable int id) {
+    	 managementService.deleteById(id);
+    }
+    
+    
 	
 //	@Autowired
 //	private EmployeeRepository employeeRepository;
