@@ -1,72 +1,52 @@
 package com.capg.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Employee {
 	@Id
-	private int empId;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
-	
-	@ManyToMany
-	@JoinTable(
-			name="Project_Assigned",
-			joinColumns= @JoinColumn(name="employee_id"),
-			inverseJoinColumns = @JoinColumn(name="project_id")
-			)
-	private Set<Project> ProjectAssigned =new HashSet<>();
 
-	
+	@ManyToOne
+	@JoinColumn(name = "manager_id", referencedColumnName = "id")
+	private Manager manager;
 
-	public Set<Project> getProjectAssigned() {
-		return ProjectAssigned;
+	@ManyToMany()
+	@JoinTable(name = "employee_project", joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
+	private List<Project> projects;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setProjectAssigned(Set<Project> projectAssigned) {
-		ProjectAssigned = projectAssigned;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public Employee() {
-	}
-
-	public Employee(int empId, String firstName, String lastName, String email) {
-		super();
-		this.empId = empId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-	}
-
-	public int getEmpId() {
-		return empId;
-	}
-
-	public void setEmpId(int empId) {
-		this.empId = empId;
-	}
-
-	public String getfName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setfName(String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public String getlName() {
+	public String getLastName() {
 		return lastName;
 	}
 
-	public void setlName(String lastName) {
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
@@ -78,15 +58,18 @@ public class Employee {
 		this.email = email;
 	}
 
-	public void assignProject(Project project) {
-		ProjectAssigned.add(project);
-		
+	public List<Project> getProjects() {
+		return projects;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-//				+ ", manager=" + manager + "]";
-//	}
-}
+	public Manager getManager() {
+		return manager;
+	}
 
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+	
+	
+
+}

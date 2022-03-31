@@ -1,31 +1,32 @@
 package com.capg.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project {
 	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String projectName;
-    @JsonIgnore
-	@ManyToMany(mappedBy = "ProjectAssigned")
-	private Set<Employee> employee = new HashSet<>();
+
+	@OneToOne()
+	@JoinColumn(name = "manager_id")
+	private Manager manager;
 	
-
-	public Project() {
-	}
-
-	public Project(int id, String projectName) {
-		this.id = id;
-		this.projectName = projectName;
-	}
+	@JsonIgnore
+	@ManyToMany(mappedBy = "projects")
+	private List<Employee> employees;
 
 	public int getId() {
 		return id;
@@ -43,8 +44,21 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Project [id=" + id + ", projectName=" + projectName + "]";
-//	}
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+	
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+	
+
 }

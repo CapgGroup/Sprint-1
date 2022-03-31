@@ -3,29 +3,30 @@ package com.capg.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Manager {
 	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
-
-
-	public Manager() {
-	}
-
-	public Manager(int id, String fName, String lName, String email) {
-		super();
-		this.id = id;
-		this.firstName = fName;
-		this.lastName = lName;
-		this.email = email;
-	}
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "manager")
+	private Project project;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "manager")
+	private List<Employee> employees;
 
 	public int getId() {
 		return id;
@@ -35,20 +36,20 @@ public class Manager {
 		this.id = id;
 	}
 
-	public String getfName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setfName(String fName) {
-		this.firstName = fName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getlName() {
+	public String getLastName() {
 		return lastName;
 	}
 
-	public void setlName(String lName) {
-		this.lastName = lName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -59,11 +60,14 @@ public class Manager {
 		this.email = email;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Manager [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-//				+ ", project=" + project + ", employees=" + employees + "]";
-//	}
+	public List<Employee> getEmployees() {
+		return employees;
+	}
 
+	public Project getProject() {
+		return project;
+	}
 	
+	
+
 }
