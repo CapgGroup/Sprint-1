@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 import com.capg.entity.Employee;
 import com.capg.entity.Manager;
 import com.capg.entity.Project;
-import com.capg.exception.EmployeeAlreadyPresentException;
-import com.capg.exception.EmployeeNotFoundException;
-import com.capg.exception.EmployeesEmptyException;
-import com.capg.exception.ManagerNotFoundException;
 import com.capg.repository.EmployeeRepository;
 import com.capg.repository.ManagerRepository;
 import com.capg.repository.ProjectRepository;
@@ -70,6 +66,18 @@ public class ManagementServiceImpl implements ManagementService {
 		return projectRepository.findById(id);
 	}
 
+	@Override
+	public List<Project> getAllProjects() {
+		List<Project> list = projectRepository.findAll();
+		return list;
+	}
+
+	@Override
+	public void deleteByProjectId(int project_id) {
+		projectRepository.deleteById(project_id);
+	}
+	
+	
 	// Manager Methods
 	@Override
 	public Manager saveManager(Manager manager) {
@@ -80,5 +88,6 @@ public class ManagementServiceImpl implements ManagementService {
 	public Optional<Manager> findManagerById(int id) {
 		return managerRepository.findById(id);
 	}
+
 
 }

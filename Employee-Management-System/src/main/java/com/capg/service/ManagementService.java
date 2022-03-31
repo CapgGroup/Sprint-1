@@ -27,6 +27,10 @@ public interface ManagementService {
 	
 	public Optional<Project> findProjectById(int id);
 	
+	public List<Project> getAllProjects();
+	
+	public void deleteByProjectId(int project_id);
+	
 	//Manager Methods
 	public Manager saveManager(Manager manager);
 	
