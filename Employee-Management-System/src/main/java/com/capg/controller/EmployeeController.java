@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.entity.Employee;
 import com.capg.entity.Manager;
 import com.capg.entity.Project;
+import com.capg.exception.EmployeeAlreadyPresentException;
+import com.capg.exception.EmployeeNotFoundException;
+import com.capg.exception.EmployeesEmptyException;
+import com.capg.exception.ManagerNotFoundException;
 import com.capg.service.ManagementService;
 
 @RestController
@@ -24,8 +28,11 @@ public class EmployeeController {
 	@Autowired
 	private ManagementService managementService;
 	
-	@PostMapping("/save-employee")
+	@PostMapping("/add-employee")
 	public Employee saveEmployee(@RequestBody Employee employee) {
+		if(managementService.findEmployeeById(employee.getId()).isPresent()) {
+			throw new EmployeeAlreadyPresentException("Entered id"+employee.getId()+"is already Present Please Enter another id");
+		}
 		return managementService.saveEmployee(employee);
 	}
 	
@@ -46,16 +53,25 @@ public class EmployeeController {
     }
     @GetMapping("")
     	public List<Employee> getAllEmployees(){
-    	return managementService.getAllEmployees();
+    	List<Employee> list = managementService.getAllEmployees();
+		if (list.isEmpty())
+			throw new EmployeesEmptyException("No Employees Data is present right now");
+    	return list;
     }
     
     @GetMapping("/{empId}")
     public Employee getByEmployeeId(@PathVariable int empId) {
+    	if(!managementService.findEmployeeById(empId).isPresent()) {
+			throw new EmployeeNotFoundException("Employee not found with empId"+empId);
+		}
     	return managementService.findEmployeeById(empId).get();	
     }
     
     @GetMapping("/get-by-managerId/{managerId}")
 	public List<Employee> getByManagerId(@PathVariable int managerId) {
+    	if(!managementService.findManagerById(managerId).isPresent()) {
+			throw new ManagerNotFoundException("Manager not found with manager_id"+managerId);
+		}
 		return managementService.findByManagerId(managerId);
 	}
     
@@ -66,8 +82,23 @@ public class EmployeeController {
     
     @DeleteMapping("/delete-by-id/{id}")
     public void deleteByid(@PathVariable int id) {
+    	if (!managementService.findEmployeeById(id).isPresent()) {
+			throw new EmployeeNotFoundException("Does not found Employee with" + id);
+		}
     	 managementService.deleteById(id);
     }
+    
+    @PutMapping("/update")
+    public Employee updateEmployeeById(@RequestBody Employee employee) {
+    	if(!managementService.findEmployeeById(employee.getId()).isPresent()) {
+    		throw new EmployeeNotFoundException("Employee does not exist with id "+employee.getId());
+    	}
+    	else {
+    		return managementService.saveEmployee(employee);
+	
+    	}
+    }
+    
     
     
 	
