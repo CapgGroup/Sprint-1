@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import com.capg.entity.Employee;
 import com.capg.entity.Manager;
 import com.capg.entity.Project;
+import com.capg.exception.EmployeeAlreadyPresentException;
+import com.capg.exception.EmployeeNotFoundException;
+import com.capg.exception.EmployeesEmptyException;
+import com.capg.exception.ManagerNotFoundException;
 import com.capg.repository.EmployeeRepository;
 import com.capg.repository.ManagerRepository;
 import com.capg.repository.ProjectRepository;
@@ -26,28 +30,45 @@ public class ManagementServiceImpl implements ManagementService {
 	// Employee Methods
 	@Override
 	public Employee saveEmployee(Employee employee) {
+		if(employeeRepository.findById(employee.getId()).isPresent()) {
+			throw new EmployeeAlreadyPresentException("Entered id"+employee.getId()+"is already Present Please Enter another id");
+		}
+			
+		
 		return employeeRepository.save(employee);
 	}
 
 	@Override
 	public Optional<Employee> findEmployeeById(int id) {
+//		Optional<Employee> employee = employeeRepository.findById(id);
+		
+		if(!employeeRepository.findById(id).isPresent()) {
+			throw new EmployeeNotFoundException("Employee not found with empId"+id);
+		}
 		return employeeRepository.findById(id);
 	}
 
 	@Override
 	public List<Employee> findByManagerId(int managerId) {
+		if(!employeeRepository.findById(managerId).isPresent()) {
+			throw new ManagerNotFoundException("Manager not found with manager_id"+managerId);
+		}
 		return employeeRepository.findByManagerId(managerId);
 	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
-
-		return employeeRepository.findAll();
+         List<Employee> list=employeeRepository.findAll();
+         if(list.isEmpty())
+        	 throw new EmployeesEmptyException("No Employees Data is present right now");
+		return list;
 	}
 
 	@Override
 	public void deleteById(int id) {
-
+		if(!employeeRepository.findById(id).isPresent()) {
+			throw new EmployeeNotFoundException("Does not found Employee with"+id);
+		}
 		employeeRepository.deleteById(id);
 	}
 
