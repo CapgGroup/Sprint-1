@@ -1,5 +1,6 @@
 package com.capg.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class ManagementServiceImpl implements ManagementService {
 		return employeeRepository.findById(id);
 	}
 	
+	@Override
+	public List<Employee> findByManagerId(int managerId) {
+		return employeeRepository.findByManagerId(managerId);
+	}
+	
 	//Project Methods
 	@Override
 	public Project saveProject(Project project) {
@@ -54,5 +60,7 @@ public class ManagementServiceImpl implements ManagementService {
 	public Optional<Manager> findManagerById(int id) {
 		return managerRepository.findById(id);
 	}
+
+
 
 }
