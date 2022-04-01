@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,15 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capg.entity.Employee;
 import com.capg.entity.Manager;
-import com.capg.entity.Project;
-import com.capg.exception.EmployeeNotFoundException;
-import com.capg.exception.EmployeesEmptyException;
 import com.capg.exception.ManagerEmptyException;
 import com.capg.exception.ManagerNotFoundException;
 import com.capg.exception.ProjectNotFoundException;
-import com.capg.repository.ManagerRepository;
 import com.capg.service.ManagementService;
 
 @RestController
@@ -60,9 +56,12 @@ public class ManagerController {
 	
 	@DeleteMapping("/delete-by-id/{managerId}")
     public void deleteByid(@PathVariable int managerId) {
-    	if (!managementService.findManagerById(managerId).isPresent()) {
+		Optional<Manager> manager = managementService.findManagerById(managerId);
+    	if (!manager.isPresent()) {
 			throw new ManagerNotFoundException("Does not found manager with " + managerId);
 		}
-    	 managementService.deleteByManagerId(managerId);
+    	manager.get().getEmployees().stream().forEach((p) -> p.setManager(null));
+    	manager.get().getProject().setManager(null);
+    	managementService.deleteByManagerId(managerId);
     }
 }
