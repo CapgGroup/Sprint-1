@@ -59,6 +59,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	
+	
+	
 	//Manager Exceptions
 	
 	@ExceptionHandler(ManagerNotFoundException.class)
@@ -77,7 +79,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 	
+	// Valid Details Exception
 	
+	@ExceptionHandler(EnterValidDetailsException.class)
+	public ResponseEntity<ErrorDetails> handleEnterValidEmpIdException(EnterValidDetailsException ex,WebRequest request)
+	{
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+	}
 	
 
 }

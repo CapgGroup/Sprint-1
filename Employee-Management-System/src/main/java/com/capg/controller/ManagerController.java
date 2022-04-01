@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.entity.Manager;
+import com.capg.exception.EnterValidDetailsException;
 import com.capg.exception.ManagerEmptyException;
 import com.capg.exception.ManagerNotFoundException;
 import com.capg.exception.ProjectNotFoundException;
@@ -28,6 +29,9 @@ public class ManagerController {
 
 	@PostMapping("/save-manager")
 	public ResponseEntity<Manager> addManager(@RequestBody Manager manager) {
+		
+		if(manager.getId()<0)
+			throw new EnterValidDetailsException("Please Enter Valid Manager Id");
 		return new ResponseEntity<Manager>(managementService.saveManager(manager), HttpStatus.CREATED);
 	}
 
@@ -41,23 +45,40 @@ public class ManagerController {
 	
 	@GetMapping("/{managerId}")
     public ResponseEntity<Manager> getByManagerId(@PathVariable int managerId) {
+		if(managerId<0) {
+			throw new EnterValidDetailsException("Please Enter Valid Manager Id");
+			
+		}
+		else {
     	if(!managementService.findManagerById(managerId).isPresent()) {
 			throw new ManagerNotFoundException("Manager not found with managerId "+ managerId);
 		}
 		return new ResponseEntity<Manager>(managementService.findManagerById(managerId).get(), HttpStatus.FOUND);
     }
+}
 	
 	
 	@GetMapping("/get-manager-by-project/{projectId}")
     public ResponseEntity<Manager> getManagerByProjectId(@PathVariable int projectId) {
+		
+		if(projectId<0) {		
+			throw new EnterValidDetailsException("Please Enter Valid Project Id");
+		}
+		else {
     	if(!managementService.findProjectById(projectId).isPresent()) {
 			throw new ProjectNotFoundException("Project not found with projectId "+ projectId);
 		}
 		return new ResponseEntity<Manager>(managementService.findProjectById(projectId).get().getManager(), HttpStatus.FOUND);
     }
+}		
 	
 	@DeleteMapping("/delete-by-id/{managerId}")
     public void deleteByid(@PathVariable int managerId) {
+		
+		if(managerId<0) {		
+			throw new EnterValidDetailsException("Please Enter Valid Manager Id");
+		}
+		else {
 		Optional<Manager> manager = managementService.findManagerById(managerId);
     	if (!manager.isPresent()) {
 			throw new ManagerNotFoundException("Does not found manager with " + managerId);
@@ -66,4 +87,5 @@ public class ManagerController {
     	manager.get().getProject().setManager(null);
     	managementService.deleteByManagerId(managerId);
     }
+ }
 }
