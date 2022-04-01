@@ -35,7 +35,7 @@ public class ProjectController {
 	 @GetMapping("/{projectId}")
 	    public Project getByProjectId(@PathVariable int projectId) {
 	    	if(!managementService.findProjectById(projectId).isPresent()) {
-				throw new EmployeeNotFoundException("Employee not found with projectId "+ projectId);
+				throw new EmployeeNotFoundException("Project not found with projectId "+ projectId);
 			}
 	    	return managementService.findProjectById(projectId).get();	
 	    }
@@ -53,7 +53,7 @@ public class ProjectController {
 	public List<Project> getAllProjects() {
 		List<Project> list = managementService.getAllProjects();
 		if (list.isEmpty())
-			throw new ProjectEmptyException("No Employees Data is present right now");
+			throw new ProjectEmptyException("No Project Data is present right now");
 		return list;
 	}
 	
@@ -62,7 +62,7 @@ public class ProjectController {
 	@DeleteMapping("/delete-by-id/{projectId}")
     public void deleteByid(@PathVariable int projectId) {
     	if (!managementService.findProjectById(projectId).isPresent()) {
-			throw new ProjectNotFoundException("Does not found Employee with " + projectId);
+			throw new ProjectNotFoundException("Does not found Project with " + projectId);
 		}
     	 managementService.deleteByProjectId(projectId);
     }

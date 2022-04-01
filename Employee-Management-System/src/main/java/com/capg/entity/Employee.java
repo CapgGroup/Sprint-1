@@ -9,6 +9,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.google.common.base.Optional;
+
 @Entity
 public class Employee {
 	@Id
@@ -66,6 +68,7 @@ public class Employee {
 		return manager;
 	}
 
+	
 	public void setManager(Manager manager) {
 		this.manager = manager;
 	}
