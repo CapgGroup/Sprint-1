@@ -1,6 +1,7 @@
 package com.capg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,12 +91,16 @@ public class EmployeeController {
     
     @PutMapping("/update")
     public Employee updateEmployeeById(@RequestBody Employee employee) {
-    	if(!managementService.findEmployeeById(employee.getId()).isPresent()) {
+    	Optional<Employee> newEmployee = managementService.findEmployeeById(employee.getId());
+    	if(!newEmployee.isPresent()) {
     		throw new EmployeeNotFoundException("Employee does not exist with id "+employee.getId());
     	}
     	else {
-    		return managementService.saveEmployee(employee);
-	
+    		newEmployee.get().setId(employee.getId());
+    		newEmployee.get().setFirstName(employee.getFirstName());
+    		newEmployee.get().setLastName(employee.getLastName());
+    		newEmployee.get().setEmail(employee.getEmail());
+    		return managementService.saveEmployee(newEmployee.get());
     	}
     }
     
