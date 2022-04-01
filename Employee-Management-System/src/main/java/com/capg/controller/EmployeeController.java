@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,55 +32,55 @@ public class EmployeeController {
 	private ManagementService managementService;
 	
 	@PostMapping("/add-employee")
-	public Employee saveEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
 		if(managementService.findEmployeeById(employee.getId()).isPresent()) {
 			throw new EmployeeAlreadyPresentException("Entered id"+employee.getId()+"is already Present Please Enter another id");
 		}
-		return managementService.saveEmployee(employee);
+		return new ResponseEntity<Employee>(managementService.saveEmployee(employee), HttpStatus.CREATED);
 	}
 	
     @PutMapping("/{employeeId}/add-project/{projectId}")
-    private Employee addProjectToEmployee(@PathVariable int employeeId, @PathVariable int projectId) {
+    private ResponseEntity<Employee> addProjectToEmployee(@PathVariable int employeeId, @PathVariable int projectId) {
     	Employee employee = managementService.findEmployeeById(employeeId).get();
         Project project = managementService.findProjectById(projectId).get();
         employee.getProjects().add(project);
-        return managementService.saveEmployee(employee);
+        return new ResponseEntity<Employee>(managementService.saveEmployee(employee), HttpStatus.ACCEPTED);
     }
     
     @PutMapping("/{employeeId}/assign-manager/{managerId}")
-    private Employee assignManagerToEmployee(@PathVariable int employeeId, @PathVariable int managerId) {
+    private ResponseEntity<Employee> assignManagerToEmployee(@PathVariable int employeeId, @PathVariable int managerId) {
     	Employee employee = managementService.findEmployeeById(employeeId).get();
         Manager manager = managementService.findManagerById(managerId).get();
         employee.setManager(manager);
-        return managementService.saveEmployee(employee);
+        return new ResponseEntity<Employee>(managementService.saveEmployee(employee), HttpStatus.ACCEPTED);
     }
     @GetMapping("")
-    	public List<Employee> getAllEmployees(){
+    	public ResponseEntity<List<Employee>> getAllEmployees(){
     	List<Employee> list = managementService.getAllEmployees();
 		if (list.isEmpty())
 			throw new EmployeesEmptyException("No Employees Data is present right now");
-    	return list;
+    	return new ResponseEntity<List<Employee>>(list, HttpStatus.OK);
     }
     
     @GetMapping("/{empId}")
-    public Employee getByEmployeeId(@PathVariable int empId) {
+    public ResponseEntity<Employee> getByEmployeeId(@PathVariable int empId) {
     	if(!managementService.findEmployeeById(empId).isPresent()) {
 			throw new EmployeeNotFoundException("Employee not found with empId"+empId);
 		}
-    	return managementService.findEmployeeById(empId).get();	
+    	return new ResponseEntity<Employee>(managementService.findEmployeeById(empId).get(), HttpStatus.FOUND);
     }
     
     @GetMapping("/get-by-managerId/{managerId}")
-	public List<Employee> getByManagerId(@PathVariable int managerId) {
+	public ResponseEntity<List<Employee>> getByManagerId(@PathVariable int managerId) {
     	if(!managementService.findManagerById(managerId).isPresent()) {
 			throw new ManagerNotFoundException("Manager not found with manager_id"+managerId);
 		}
-		return managementService.findByManagerId(managerId);
+		return new ResponseEntity<List<Employee>>(managementService.findByManagerId(managerId), HttpStatus.FOUND);
 	}
     
     @GetMapping("/get-by-projectId/{projectId}")
-    public List<Employee> getByProjectId(@PathVariable int projectId){
-    	return managementService.findProjectById(projectId).get().getEmployees();
+    public ResponseEntity<List<Employee>> getByProjectId(@PathVariable int projectId){
+    	return new ResponseEntity<List<Employee>>(managementService.findProjectById(projectId).get().getEmployees(), HttpStatus.FOUND);
     }
     
     @DeleteMapping("/delete-by-id/{id}")
@@ -90,7 +92,7 @@ public class EmployeeController {
     }
     
     @PutMapping("/update")
-    public Employee updateEmployeeById(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee employee) {
     	Optional<Employee> newEmployee = managementService.findEmployeeById(employee.getId());
     	if(!newEmployee.isPresent()) {
     		throw new EmployeeNotFoundException("Employee does not exist with id "+employee.getId());
@@ -100,7 +102,7 @@ public class EmployeeController {
     		newEmployee.get().setFirstName(employee.getFirstName());
     		newEmployee.get().setLastName(employee.getLastName());
     		newEmployee.get().setEmail(employee.getEmail());
-    		return managementService.saveEmployee(newEmployee.get());
+    		return new ResponseEntity<Employee>(managementService.saveEmployee(newEmployee.get()), HttpStatus.OK);
     	}
     }
     

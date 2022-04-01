@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,33 +27,33 @@ public class ManagerController {
 	private ManagementService managementService;
 
 	@PostMapping("/save-manager")
-	public Manager addManager(@RequestBody Manager manager) {
-		return managementService.saveManager(manager);
+	public ResponseEntity<Manager> addManager(@RequestBody Manager manager) {
+		return new ResponseEntity<Manager>(managementService.saveManager(manager), HttpStatus.CREATED);
 	}
 
 	@GetMapping("")
-	public List<Manager> getAllManger() {
+	public ResponseEntity<List<Manager>> getAllManger() {
 		List<Manager> list = managementService.getAllManager();
 		if (list.isEmpty())
 			throw new ManagerEmptyException("No Manager Data is present right now");
-		return list;
+		return new ResponseEntity<List<Manager>>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{managerId}")
-    public Manager getByManagerId(@PathVariable int managerId) {
+    public ResponseEntity<Manager> getByManagerId(@PathVariable int managerId) {
     	if(!managementService.findManagerById(managerId).isPresent()) {
 			throw new ManagerNotFoundException("Manager not found with managerId "+ managerId);
 		}
-    	return managementService.findManagerById(managerId).get();	
+		return new ResponseEntity<Manager>(managementService.findManagerById(managerId).get(), HttpStatus.FOUND);
     }
 	
 	
 	@GetMapping("/get-manager-by-project/{projectId}")
-    public Manager getManagerByProjectId(@PathVariable int projectId) {
+    public ResponseEntity<Manager> getManagerByProjectId(@PathVariable int projectId) {
     	if(!managementService.findProjectById(projectId).isPresent()) {
 			throw new ProjectNotFoundException("Project not found with projectId "+ projectId);
 		}
-    	return managementService.findProjectById(projectId).get().getManager();	
+		return new ResponseEntity<Manager>(managementService.findProjectById(projectId).get().getManager(), HttpStatus.FOUND);
     }
 	
 	@DeleteMapping("/delete-by-id/{managerId}")
