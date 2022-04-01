@@ -42,7 +42,7 @@ public class ProjectController {
 
 	 
 	@PutMapping("/{projectId}/set-manager/{managerId}")
-	private Project assignManagerToEmployee(@PathVariable int projectId, @PathVariable int managerId) {
+	private Project assignManagerToProject(@PathVariable int projectId, @PathVariable int managerId) {
 		Project project = managementService.findProjectById(projectId).get();
 		Manager manager = managementService.findManagerById(managerId).get();
 		project.setManager(manager);

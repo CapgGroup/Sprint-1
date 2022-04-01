@@ -45,13 +45,13 @@ public class ManagementServiceImpl implements ManagementService {
 	@Override
 	public List<Employee> getAllEmployees() {
 		List<Employee> list = employeeRepository.findAll();
-		
+
 		return list;
 	}
 
 	@Override
 	public void deleteById(int id) {
-		
+
 		employeeRepository.deleteById(id);
 	}
 
@@ -76,8 +76,7 @@ public class ManagementServiceImpl implements ManagementService {
 	public void deleteByProjectId(int project_id) {
 		projectRepository.deleteById(project_id);
 	}
-	
-	
+
 	// Manager Methods
 	@Override
 	public Manager saveManager(Manager manager) {
@@ -88,6 +87,19 @@ public class ManagementServiceImpl implements ManagementService {
 	public Optional<Manager> findManagerById(int id) {
 		return managerRepository.findById(id);
 	}
+
+	@Override
+	public List<Manager> getAllManager() {
+		List<Manager> list = managerRepository.findAll();
+		return list;
+	}
+
+	@Override
+	public void deleteByManagerId(int manager_id) {
+		managerRepository.deleteById(manager_id);
+		
+	}
+
 
 
 }
