@@ -1,5 +1,6 @@
 package com.capg.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.entity.Manager;
+import com.capg.entity.Employee;
 import com.capg.exception.EnterValidDetailsException;
 import com.capg.exception.ManagerEmptyException;
 import com.capg.exception.ManagerNotFoundException;
@@ -75,6 +77,16 @@ public class ManagerController {
 	@DeleteMapping("/delete-by-id/{managerId}")
     public void deleteByid(@PathVariable int managerId) {
 		
+		
+		List<Employee> list=managementService.getAllEmployees();
+		for(Employee employee: list) {
+			
+			if(employee.getManager().getId()==managerId) {		
+			throw new EnterValidDetailsException("You Cant Delete This Manager Id As this Manager Is Assigned to Employees ");
+			}
+			
+		}
+		
 		if(managerId<0) {		
 			throw new EnterValidDetailsException("Please Enter Valid Manager Id");
 		}
@@ -83,9 +95,10 @@ public class ManagerController {
     	if (!manager.isPresent()) {
 			throw new ManagerNotFoundException("Does not found manager with " + managerId);
 		}
-    	manager.get().getEmployees().stream().forEach((p) -> p.setManager(null));
-    	manager.get().getProject().setManager(null);
-    	managementService.deleteByManagerId(managerId);
+//    	manager.get().getEmployees().stream().forEach((p) -> p.setManager(null));
+//    	manager.get().getProject().setManager(null);
+//    	managementService.deleteByManagerId(managerId);
+    	  managementService.deleteByManagerId(managerId);
     }
  }
 }

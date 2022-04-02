@@ -96,7 +96,7 @@ public class ManagementServiceImpl implements ManagementService {
 
 	@Override
 	public void deleteByManagerId(int manager_id) {
-		managerRepository.deleteById(manager_id);
+		 managerRepository.deleteById(manager_id);
 		
 	}
 
